@@ -60,6 +60,17 @@ function renderInput(field, index) {
 // 更新字段值
 window.updateField = function(index, key, value) {
   formData[index][key] = value;
+  // 出生日期格式化为 yyyy-mm-dd
+  if (formData[index].id === 'birthday' && key === 'value' && value) {
+    // 确保是 yyyy-mm-dd 格式
+    const date = new Date(value);
+    if (!isNaN(date.getTime())) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      formData[index].value = `${year}-${month}-${day}`;
+    }
+  }
 };
 
 // 删除字段

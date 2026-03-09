@@ -176,7 +176,16 @@ function fillField(field, value) {
       return true;
     } else {
       // 文本输入框
-      field.value = value;
+      let finalValue = value;
+      
+      // 特殊处理：日期格式转换 (yyyy-mm-dd → yyyy/mm/dd)
+      if (field.type === 'date' || field.id.includes('birth') || field.name.includes('birth')) {
+        if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+          finalValue = value.replace(/-/g, '/');
+        }
+      }
+      
+      field.value = finalValue;
       field.dispatchEvent(new Event('input', { bubbles: true }));
       field.dispatchEvent(new Event('change', { bubbles: true }));
       return true;
